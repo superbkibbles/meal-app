@@ -1,22 +1,36 @@
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { StyleSheet, Text, View } from 'react-native';
 
-import useCachedResources from './hooks/useCachedResources';
-import useColorScheme from './hooks/useColorScheme';
-import Navigation from './navigation';
+import Screen from './src/components/Screen';
+import { Searchbar, TextInput } from 'react-native-paper';
+
+const spacing = 16;
 
 export default function App() {
-  const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
+    const [searchQuery, setSearchQuery] = React.useState('');
 
-  if (!isLoadingComplete) {
-    return null;
-  } else {
+    const onChangeSearch = (query: string) => setSearchQuery(query);
     return (
-      <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
-      </SafeAreaProvider>
+        <Screen>
+            <StatusBar style="dark" />
+            <View style={styles.search}>
+                <Searchbar onChangeText={onChangeSearch} placeholder="search" />
+            </View>
+            <View style={styles.main}>
+                <Text>out react</Text>
+            </View>
+        </Screen>
     );
-  }
 }
+
+const styles = StyleSheet.create({
+    search: {
+        padding: spacing
+    },
+    main: {
+        backgroundColor: 'blue',
+        flex: 1,
+        padding: spacing
+    }
+});
